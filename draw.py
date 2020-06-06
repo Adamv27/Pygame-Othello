@@ -2,13 +2,14 @@ import pygame
 
 black = (0, 0, 0)
 white = (255, 255, 255)
+green = (0, 255, 0)
+light_brown = (214, 177, 139)
+brown = (165, 122, 96)
+
 center = 37
 radius = 30
 
 def board(screen):
-    light_brown = (214, 177, 139)
-    brown = (165, 122, 96)
-
     square_size = 75
     # 8x8 game board
     for row in range(8):
@@ -41,3 +42,18 @@ def tile(screen, move, symbol):
     color = white if symbol == 'X' else black
     pygame.draw.circle(screen, color, (row * 75 + center, column * 75 + center), radius)
     pygame.display.update()
+
+
+def possible_move(screen, row, column):
+    rad = 10
+    pygame.draw.circle(screen, green, (row * 75 + center, column * 75 + center), rad)
+    pygame.display.update()
+
+
+def square(screen, row, column):
+    square_size = 75
+    if (row + column) % 2 == 0:
+        color = light_brown
+    else:
+        color = brown
+    pygame.draw.rect(screen, color, (row * square_size, column * square_size, square_size, square_size))
