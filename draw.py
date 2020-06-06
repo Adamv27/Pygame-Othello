@@ -23,6 +23,7 @@ def board(screen):
 
 
 def tiles(screen, board):
+    print()
     for row in range(8):
         for column in range(8):
             if board[row][column] == '':
@@ -32,7 +33,8 @@ def tiles(screen, board):
             elif board[row][column] == 'O':
                 color = black
 
-            pygame.draw.circle(screen, color, (row * 75 + center, column * 75 + center), radius)
+            #print(f'drawing at {row, column}  for {color}')
+            pygame.draw.circle(screen, color, (column * 75 + center, row * 75 + center), radius)
     pygame.display.update()
 
 
