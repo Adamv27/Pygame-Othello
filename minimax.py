@@ -1,5 +1,8 @@
 from sys import maxsize
 
+HUMAN = -1  # O
+COMP = 1  # X
+
 class Computer:
     def __init__(self, board):
         self.board = self.get_board_copy(board)
@@ -19,23 +22,19 @@ class Computer:
             temp_board = self.get_board_copy(self.board)
             self.board[row][column] = 'X'
             self.board = flip_tiles(move, 'X', self.board)
-            score = self.minimax(self.board, 3, True)
+            score = self.minimax(self.board, 5, True, 1)
             self.board = temp_board
             if score > best_score:
                 best_score = score
                 best_move = move
         return best_move
 
-    def minimax(self, board, depth, maximizing_player):
+    def minimax(self, board, depth, maximizing_player, player):
         if depth == 0 or (0 in game_over(board)):
-            if win(board):
-                print('win')
-                return 1
-            elif loss(board):
-                print('loss')
-                return -1
+            if player == COMP:
+                return get_score(board)[1]
             else:
-                return 0
+                return get_score(board)[0]
 
         if maximizing_player:
             max_eval = -maxsize
@@ -44,7 +43,7 @@ class Computer:
                 temp_board = self.get_board_copy(board)
                 board[row][column] = 'X'
                 board = flip_tiles(move, 'X', board)
-                eval_state = self.minimax(board, depth - 1, False)
+                eval_state = self.minimax(board, depth - 1, False, -player)
                 max_eval = max(max_eval, eval_state)
                 board = temp_board
             return max_eval
@@ -55,7 +54,7 @@ class Computer:
                 temp_board = self.get_board_copy(board)
                 board[row][column] = 'O'
                 board = flip_tiles(move, 'O', board)
-                eval_state = self.minimax(board, depth - 1, True)
+                eval_state = self.minimax(board, depth - 1, True, -player)
                 min_eval = min(min_eval, eval_state)
                 board = temp_board
             return min_eval

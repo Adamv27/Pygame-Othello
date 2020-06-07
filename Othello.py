@@ -36,7 +36,6 @@ class Game:
                 current_player = 'X'
                 computer = minimax.Computer(self.board.grid)
                 move = computer.get_best_move()
-                print(move)
             # Play the current move
             self.board.grid[move[0]][move[1]] = current_player
             # Flip tiles after move has been played
