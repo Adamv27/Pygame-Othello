@@ -3,7 +3,7 @@ import draw
 import time
 import random
 import pygame
-
+import minimax
 pygame.init()
 
 
@@ -15,12 +15,13 @@ class Game:
 
         self.board = board
         self.turn = 0
-        self.player_one = Player('X')  # White
-        self.player_two = Player('O')  # Black
+        self.player_one = Player('O')  # White
+        self.player_two = Player('X')  # Black
         self.possible_moves = []
 
     def main_loop(self):
         self.set_up_board()
+
         while True:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
@@ -33,10 +34,9 @@ class Game:
                 move = self.player_one.get_move(self.possible_moves)
             else:
                 current_player = 'X'
-                self.possible_moves = self.board.get_possible_moves('X', self.screen)
-                self.display_possible_moves()
-                move = self.player_two.get_move(self.possible_moves)
-
+                computer = minimax.Computer(self.board.grid)
+                move = computer.get_best_move()
+                print(move)
             # Play the current move
             self.board.grid[move[0]][move[1]] = current_player
             # Flip tiles after move has been played
@@ -52,7 +52,6 @@ class Game:
                 break
             # Redraw board to get rid of possible moves
             self.update_board()
-
             # Reset possible moves for next turn
             self.possible_moves = []
             self.turn += 1
